@@ -1,0 +1,221 @@
+**DSA in Java – Time and Space Complexity (Interview Guide)**
+
+---
+
+### 🔍 Definition (in Simple English)
+
+**Time Complexity (TC)** tells us how the *execution time* of an algorithm increases as the input size increases.
+
+**Space Complexity (SC)** tells us how much *extra memory* an algorithm needs as the input grows.
+
+These are used to analyze and compare how efficient algorithms are, especially for large datasets.
+
+---
+
+### 🛍️ Real-Life Analogies
+
+* **Time Complexity**: Like estimating how long it takes you to complete homework depending on the number of questions. More questions = more time.
+
+* **Space Complexity**: Like needing more paper to solve more math problems. Larger inputs = more memory.
+
+---
+
+### ⚖️ Order of Complexity Analysis
+
+In increasing order of time cost:
+
+* **O(1)** – Constant time (fastest)
+* **O(log n)** – Binary search, divide and conquer steps
+* **O(n)** – Linear time, scanning
+* **O(n log n)** – Efficient sorting (merge sort, quick sort avg case)
+* **O(n^2)** – Nested loops (bubble sort, selection sort)
+* **O(2^n), O(n!)** – Exponential (recursive subsets, permutations)
+
+---
+
+### ⌛ Time Complexity in Detail
+
+#### **Merge Sort vs Quick Sort**
+
+* **Merge Sort**:
+
+  * TC = O(n log n) – Always
+  * SC = O(n) – Needs extra array
+
+* **Quick Sort**:
+
+  * Best/Average: O(n log n)
+  * Worst Case: O(n^2)
+  * SC = O(log n) – Due to recursion stack
+
+---
+
+### 📊 Big O, Omega, Theta
+
+| Notation          | Meaning      | Usage                   |
+| ----------------- | ------------ | ----------------------- |
+| **O (Big O)**     | Worst case   | Most common, safe bound |
+| **Ω (Big Omega)** | Best case    | Shows best performance  |
+| **Θ (Theta)**     | Average case | When best = worst       |
+
+---
+
+### 🔹 Common Complexities (Graph Overview)
+
+```
+O(1) < O(log n) < O(n) < O(n log n) < O(n^2) < O(2^n) < O(n!)
+```
+
+Use this to judge how efficient your algorithm is.
+
+---
+
+### 📂 Space Complexity
+
+**Space = Input Space + Auxiliary Space**
+
+* **Input Space**: Memory for input
+* **Auxiliary Space**: Extra memory used (stack, arrays, etc.)
+
+> Example: Merge sort uses O(n) extra space (new arrays).
+
+---
+
+### ⟳ Loops and Complexity
+
+* **Simple Loop**: `for (int i = 0; i < n; i++)` → O(n)
+
+* **Nested Loop**:
+
+  ```java
+  for (int i = 0; i < n; i++) {
+     for (int j = 0; j < n; j++) {
+         // work
+     }
+  }
+  ```
+
+  → O(n^2)
+
+* Loop inside while, variable update → Depends on update rate
+
+---
+
+### ↕ Sorting Complexities
+
+| Algorithm   | Time Complexity             | Space Complexity |
+| ----------- | --------------------------- | ---------------- |
+| Bubble Sort | O(n^2)                      | O(1)             |
+| Merge Sort  | O(n log n)                  | O(n)             |
+| Quick Sort  | O(n log n) avg/worst O(n^2) | O(log n)         |
+
+---
+
+### ⌖ Binary Search
+
+* Efficient for **sorted arrays**
+* Time Complexity: **O(log n)**
+* Space: O(1) iterative / O(log n) recursive
+
+```java
+int binarySearch(int[] arr, int key) {
+    int low = 0, high = arr.length - 1;
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        if (arr[mid] == key) return mid;
+        else if (arr[mid] < key) low = mid + 1;
+        else high = mid - 1;
+    }
+    return -1;
+}
+```
+
+---
+
+### 🔄 Recursive Algorithms
+
+#### Linear Recursion
+
+* Ex: Factorial, Fibonacci
+* TC = O(n), SC = O(n) (stack calls)
+
+#### Divide & Conquer
+
+* Ex: Merge sort
+* TC = O(n log n), SC = O(n)
+
+#### Power Function Variants
+
+1. `power(n)` → TC = O(n), SC = O(n)
+2. Optimized divide: TC = O(log n), SC = O(log n)
+
+```java
+int power(int x, int n) {
+    if (n == 0) return 1;
+    int half = power(x, n / 2);
+    if (n % 2 == 0) return half * half;
+    else return x * half * half;
+}
+```
+
+---
+
+### 🔍 How to Approach DSA Questions
+
+1. **Understand the Problem Statement Clearly**
+2. **Identify Input/Output formats**
+3. **Check for edge cases (null, empty, large size)**
+4. **Choose the right data structure (array, stack, tree, etc.)**
+5. **Think of the Brute-force solution first**
+6. **Then optimize it using logic, sorting, hashing, etc.**
+7. **Analyze Time and Space Complexity**
+8. **Dry run on paper before coding**
+9. **Write clean and readable code**
+10. **Test on multiple cases**
+
+---
+
+### 🤔 Common Mistakes to Avoid
+
+* Ignoring worst-case scenarios
+* Forgetting recursive space (stack)
+* Misunderstanding nested loops complexity
+* Optimizing prematurely
+* Not considering input constraints
+
+---
+
+### 🚀 Interview Tips
+
+* Always mention **TC and SC** after solving
+* For every code, explain logic + dry run
+* Use proper terms: *linear*, *logarithmic*, *quadratic*, etc.
+* Clarify brute-force before optimal
+* If confused, discuss trade-offs
+
+---
+
+### 📅 Tips to Master Time and Space Complexity
+
+* Solve pattern-based problems (like nested loops, recursion, divide & conquer)
+* Track time/space while solving LeetCode/DSA
+* Watch videos and dry run examples
+* Make a flashcard with common Big-O notations
+* Learn to write recurrence relations for recursive functions
+
+---
+
+### 📄 Summary Table
+
+| Algorithm / Concept          | Time Complexity     | Space Complexity |
+| ---------------------------- | ------------------- | ---------------- |
+| Bubble Sort                  | O(n^2)              | O(1)             |
+| Merge Sort                   | O(n log n)          | O(n)             |
+| Quick Sort                   | O(n log n) / O(n^2) | O(log n)         |
+| Binary Search                | O(log n)            | O(1) / O(log n)  |
+| Recursion (linear)           | O(n)                | O(n)             |
+| Recursion (divide & conquer) | O(n log n)          | O(log n)/O(n)    |
+
+---
+
+Stay consistent. The more you solve, the more naturally time and space analysis will come to you!
