@@ -57,6 +57,30 @@ public class HeightOfTree { // "Hight" বানান ঠিক করে "Heig
         return Math.max(selfDiam, Math.max(leftDiam,rightDiam));
     }
 
+    static class Info{
+        int dia;
+        int ht;
+
+        //constructer
+        public Info(int dia, int ht){
+            this.dia=dia;
+            this.ht=ht;
+        }
+    }
+
+    public static Info optimalDiam(Node root){
+        if(root==null){
+            return new Info(0,0);
+        }
+        Info leftInfo=optimalDiam(root.left);
+        Info rightInfo=optimalDiam(root.right);
+
+        int dia=Math.max(Math.max(leftInfo.dia, rightInfo.dia), leftInfo.ht+rightInfo.ht+1);
+        int ht=Math.max(leftInfo.ht, rightInfo.ht)+1;
+
+        return new Info(dia, ht);
+    }
+
     public static void main(String[] args) {
         Node root = new Node(1);
 
@@ -77,5 +101,7 @@ public class HeightOfTree { // "Hight" বানান ঠিক করে "Heig
         System.out.println(sum(root));
 
         System.out.println(diameter(root));
+
+        System.out.println(optimalDiam(root).dia);
     }
 }
