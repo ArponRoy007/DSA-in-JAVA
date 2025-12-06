@@ -162,6 +162,114 @@ public class SubtreeOfAnotherTree {
         return lca;
     }
 
+    //OPTIMAL APPROACH
+    public static Node lca2(Node root, int n1, int n2){
+        if (root==null || root.data==n1||root.data==n2){
+            return root;
+        }
+
+        Node leftLca=lca2(root.left, n1, n2);
+        Node rightLca=lca2(root.right, n1, n2);
+
+        if (rightLca==null){
+            return leftLca;
+        }
+        if (leftLca==null){
+            return rightLca;
+        }
+
+        return root;
+    }
+
+
+    //MINIMUM DISTANCE BETWEEN TWO NODES
+    public static int lcaDist(Node root, int n){
+        if (root==null){
+            return -1;
+        }
+        if (root.data==n){
+            return 0;
+        }
+
+        int leftDist=lcaDist(root.left, n);
+        int rightDist=lcaDist(root.right, n);
+
+        if (leftDist==-1 && rightDist==-1){
+            return -1;
+        } else if (leftDist==-1) {
+            return rightDist+1;
+        } else {
+            return leftDist+1;
+        }
+    }
+    public static int minDist(Node root, int n1, int n2){
+        Node lca3=lca2(root, n1, n2);
+        int dist1=lcaDist(lca3, n1);
+        int dist2=lcaDist(lca3, n2);
+
+        return dist1+dist2;
+    }
+
+
+    //K-TH ANCESTOR OF NODE
+    public static int KAncestor(Node root, int n, int k){
+        if (root==null){
+            return -1;
+        }
+
+        if (root.data==n){
+            return 0;
+        }
+
+        int leftDist=KAncestor(root.left, n, k);
+        int rightDist=KAncestor(root.right, n, k);
+
+        if (leftDist==-1 && rightDist==-1){
+            return -1;
+        }
+
+        int max=Math.max(leftDist, rightDist);
+        if (max+1==k){
+            System.out.println(root.data);
+        }
+        return max+1;
+    }
+
+    //TRANSFORM TO SUM TREE
+    public static int transform(Node root) {
+        if (root == null) {
+            return 0;
+        }
+
+        // ১. আগে রিকার্সিভলি কল করে চাইল্ডদের ডেটা আনুন
+        int leftChild = transform(root.left);
+        int rightChild = transform(root.right);
+
+        // ২. বর্তমান ডেটা ব্যাকআপ রাখা (রিটার্ন করার জন্য)
+        int data = root.data;
+
+        // ৩. নাল চেক করা (Ternary Operator ব্যবহার করে)
+        // যদি root.left নাল হয়, তাহলে ০, নাহলে তার ডেটা নিন
+        int newLeft = (root.left == null) ? 0 : root.left.data;
+        int newRight = (root.right == null) ? 0 : root.right.data;
+
+        // ৪. সূত্র: (বাম চাইল্ডের বর্তমান ভ্যালু + বাম চাইল্ডের পুরনো ভ্যালু) + (...)
+        root.data = newLeft + leftChild + newRight + rightChild;
+
+        // ৫. পুরনো ডেটা রিটার্ন করা
+        return data;
+    }
+
+    public static void preorder(Node root){
+        if (root==null){
+            return;
+        }
+
+        System.out.print(root.data+" ");
+        preorder(root.left);
+        preorder(root.right);
+    }
+
 
     public static void main(String[] args) {
         // Main Tree (Root) তৈরি
@@ -190,6 +298,15 @@ public class SubtreeOfAnotherTree {
         int k=3;
         KLevel(root,1, k);
 
-        System.out.println(lca(root, 4,5).data);
+        System.out.println("Lowest common ancestor: "+lca(root, 4,5).data);
+
+        System.out.println("Lowest common ancestor (Optimal): "+lca2(root, 4,5).data);
+
+        System.out.println("Minimum distance between two nodes: "+minDist(root, 4, 6));
+
+        KAncestor(root,5,2);
+
+        transform(root);
+        preorder(root);
     }
 }
